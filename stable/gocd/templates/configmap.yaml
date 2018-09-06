@@ -134,6 +134,51 @@ data:
                     }
                   }' >> /godata/logs/preconfigure.log )
 
+    (curl --fail -i 'http://localhost:8153/go/api/pipelines/hello_world/unpause' \
+           -H 'Accept: application/vnd.go.cd.v1+json' \
+           -H 'X-GoCD-Confirm: true' \
+           -X POST >> /godata/logs/preconfigure.log)
+
+    echo "Done preconfiguring the GoCD server" >> /godata/logs/preconfigure.log
+
+    {{- if .Values.server.config.configRepos }}
+
+    echo "Trying to set up config repositories." >> /godata/logs/preconfigure.log
+
+    {{- range .Values.server.config.configRepos }}
+
+    (curl --fail -i 'http://localhost:8153/go/api/admin/config_repos' \
+      -H 'Accept: application/vnd.go.cd.v1+json' \
+      -H 'Content-Type: application/json' \
+      -X POST -d '{ "id": {{ quote .id }},
+                    "plugin_id": {{ quote .plugin_id }},
+                    "material": {
+                      "type": {{ quote .material.type }},
+                      "attributes": {
+                        "url": {{ quote .material.attributes.url }},
+                        {{- if .material.attributes.name }}
+                        "name": {{ quote .material.attributes.name }},
+                        {{- end }}
+                        "branch": {{ quote .material.attributes.branch }},
+                        "auto_update": {{ quote .material.attributes.auto_update }}
+                      }
+                    }
+                  }' >> /godata/logs/preconfigure.log )
+
+    (curl --fail -i 'http://localhost:8153/go/api/admin/config_repos/{{ .id }}' \
+      -H 'Accept: application/vnd.go.cd.v1+json' \
+      -H 'Content-Type: application/json' \
+      -X DELETE  >> /godata/logs/preconfigure.log ) || true
+
+
+    (curl --fail -i 'http://localhost:8153/go/api/admin/config_repos' \
+      -H 'Accept: application/vnd.go.cd.v1+json' \
+      -H 'Content-Type: application/json' \
+      -X POST -d '{{ toJson . }}' >> /godata/logs/preconfigure.log )
+
+      {{- end }}
+      {{- end }}
+
     echo "Done preconfiguring the GoCD server" > /godata/logs/preconfigure_complete.log
 
 {{- end }}
