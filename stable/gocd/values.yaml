@@ -266,6 +266,8 @@ agent:
       enabled: false
       # agent.security.ssh.secretName specifies the name of the k8s secret object that contains the ssh key and known hosts
       secretName: gocd-agent-ssh
+  # if set to a string, use this service account for the agent pods. The account won't be created!
+  serviceAccountName: null
 
   ## Configure GoCD agent resource requests and limits
   ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
