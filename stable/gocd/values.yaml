@@ -189,7 +189,7 @@ agent:
     # agent.env.agentAutoRegisterResources is the GoCD Agent auto-register resources
     agentAutoRegisterResources:
     # agent.env.agentAutoRegisterEnvironments is the GoCD Agent auto-register Environments
-    agentAutoRegisterEnvironemnts:
+    agentAutoRegisterEnvironments:
     # agent.env.agentAutoRegisterHostname is the GoCD Agent auto-register hostname
     agentAutoRegisterHostname:
     # agent.env.goAgentSystemProperties is the GoCD Agent system properties

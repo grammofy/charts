@@ -68,9 +68,9 @@ spec:
             - name: AGENT_AUTO_REGISTER_RESOURCES
               value: {{ .Values.agent.env.agentAutoRegisterResources }}
             {{- end }}
-            {{- if .Values.agent.env.agentAutoRegisterEnvironemnts }}
+            {{- if .Values.agent.env.agentAutoRegisterEnvironments }}
             - name: AGENT_AUTO_REGISTER_ENVIRONMENTS
-              value: {{ .Values.agent.env.agentAutoRegisterEnvironemnts }}
+              value: {{ .Values.agent.env.agentAutoRegisterEnvironments }}
             {{- end }}
             {{- if .Values.agent.env.agentAutoRegisterHostname }}
             - name: AGENT_AUTO_REGISTER_HOSTNAME
